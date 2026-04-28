@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Demo Jquery - UTPL</title>
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+  </head>
+  <body>
+      <h1>Ejemplo de Uso de Jquery</h1>
+      
+      <ul id="mensajeFinal">
+      </ul>
+
+      <button type="button" id="obtenerInformacion">Obtener información</button>
+      <button type="button" id="limpiarInformacion">Limpiar información</button>
+
+      <script>
+        $(document).ready(function() {
+          var url = "https://raw.githubusercontent.com/taw-desarrollo-plataformas-web/oers/refs/heads/main/data_instituciones.json";
+
+          $( "#obtenerInformacion" ).click(function() {
+                $.ajax({
+                  dataType: 'json',
+                  url: url 
+                }).then(function(data) {
+                  for(var i=0; i<data.length; i++){
+                    // Imprimimos en consola los 5 campos solicitados
+                    console.log(data[i].AMIE);
+                    console.log(data[i]["Nombre-Educativa"]); 
+                    console.log(data[i].Provincia);
+                    console.log(data[i].Canton);
+                    console.log(data[i].Parroquia);
+
+                    // Agregamos los 5 datos al <ul> en pantalla
+                    $('#mensajeFinal').append("<li><b>AMIE:</b> " + data[i].AMIE + " | <b>Nombre:</b> " + data[i]["Nombre-Educativa"] + " | <b>Provincia:</b> " + data[i].Provincia + " | <b>Cantón:</b> " + data[i].Canton + " | <b>Parroquia:</b> " + data[i].Parroquia + "</li>");
+                  }
+                }).fail(function() {
+                    alert("Error al cargar los datos desde GitHub");
+                });      
+          });
+          
+          $( "#limpiarInformacion" ).click(function() {
+              $('#mensajeFinal').empty();
+          });
+        });
+      </script>
+  </body>
+</html>
